@@ -32,7 +32,7 @@ import lombok.Value;
 @Value
 public class Vertex
 {
-	private final int x;
-	private final int y;
-	private final int z;
+	private final float x;
+	private final float y;
+	private final float z;
 }

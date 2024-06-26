@@ -79,9 +79,9 @@ public class GreenScreenOverlay extends Overlay
 
 	private List<Vertex> getVertices(Model model)
 	{
-		int[] verticesX = model.getVerticesX();
-		int[] verticesY = model.getVerticesY();
-		int[] verticesZ = model.getVerticesZ();
+		float[] verticesX = model.getVerticesX();
+		float[] verticesY = model.getVerticesY();
+		float[] verticesZ = model.getVerticesZ();
 
 		int count = model.getVerticesCount();
 
