@@ -1,7 +1,7 @@
 package com.trevor.greenscreen;
 
-import net.runelite.api.Client;
-import net.runelite.api.Model;
+import net.runelite.api.*;
+import net.runelite.api.coords.LocalPoint;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -46,7 +46,7 @@ public class GreenScreenOverlay extends Overlay
 		g.setColor(config.greenscreenColor());
 		g.fillRect(0, 0, image.getWidth(), image.getHeight());
 
-		Polygon[] polygons = client.getLocalPlayer().getPolygons();
+		Polygon[] polygons = getPolygons();
 		Triangle[] triangles = getTriangles(client.getLocalPlayer().getModel());
 
 		for (int i = 0; i < polygons.length; i++) {
@@ -126,6 +126,64 @@ public class GreenScreenOverlay extends Overlay
 		}
 
 		return triangles;
+	}
+
+	private Polygon[] getPolygons()
+	{
+		Player local = client.getLocalPlayer();
+		Model m = local.getModel();
+
+		if (m == null)
+		{
+			return null;
+		}
+
+		int[] x2d = new int[m.getVerticesCount()];
+		int[] y2d = new int[m.getVerticesCount()];
+
+		WorldView wv = client.getTopLevelWorldView();
+		LocalPoint point = local.getLocalLocation();
+		int x = point.getX();
+		int y = point.getY();
+
+		int height = Perspective.getFootprintTileHeight(client, point, wv.getPlane(), local.getFootprintSize());
+		height -= local.getAnimationHeightOffset();
+
+		Perspective.modelToCanvas(client, wv,
+				m.getVerticesCount(),
+				x, y, height,
+				local.getCurrentOrientation(),
+				m.getVerticesX(), m.getVerticesZ(), m.getVerticesY(),
+				x2d, y2d);
+
+		List<Polygon> polys = new ArrayList<>(m.getFaceCount());
+
+		int[] indices1 = m.getFaceIndices1();
+		int[] indices2 = m.getFaceIndices2();
+		int[] indices3 = m.getFaceIndices3();
+
+		int[] xs = new int[3];
+		int[] ys = new int[3];
+		for (int tri = 0; tri < m.getFaceCount(); tri++)
+		{
+			int idx;
+
+			idx = indices1[tri];
+			xs[0] = x2d[idx];
+			ys[0] = y2d[idx];
+
+			idx = indices2[tri];
+			xs[1] = x2d[idx];
+			ys[1] = y2d[idx];
+
+			idx = indices3[tri];
+			xs[2] = x2d[idx];
+			ys[2] = y2d[idx];
+
+			polys.add(new Polygon(xs, ys, 3));
+		}
+
+		return polys.toArray(new Polygon[0]);
 	}
 
 }
