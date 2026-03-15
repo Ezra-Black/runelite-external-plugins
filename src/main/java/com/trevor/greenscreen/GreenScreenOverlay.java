@@ -40,14 +40,27 @@ public class GreenScreenOverlay extends Overlay
 			return null;
 		}
 
+		GreenscreenMode mode = config.mode();
+		if (mode != GreenscreenMode.FULL_GAME && mode != GreenscreenMode.BOTH)
+		{
+			return null;
+		}
+
 		BufferedImage image = new BufferedImage(client.getCanvasWidth(), client.getCanvasHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics g = image.getGraphics();
 
 		g.setColor(config.greenscreenColor());
 		g.fillRect(0, 0, image.getWidth(), image.getHeight());
 
+		Player localPlayer = client.getLocalPlayer();
+		if (localPlayer == null || localPlayer.getModel() == null)
+		{
+			graphics.drawImage(image, 0, 0, null);
+			return null;
+		}
+
 		Polygon[] polygons = getPolygons();
-		Triangle[] triangles = getTriangles(client.getLocalPlayer().getModel());
+		Triangle[] triangles = getTriangles(localPlayer.getModel());
 
 		for (int i = 0; i < polygons.length; i++) {
 			Triangle t = triangles[i];

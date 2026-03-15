@@ -1,7 +1,6 @@
 package com.trevor.greenscreen;
 
 import com.google.inject.Provides;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.client.config.ConfigManager;
@@ -29,13 +28,20 @@ public class GreenScreenPlugin extends Plugin
 	private GreenScreenOverlay overlay;
 
 	@Inject
+	private GreenScreenMinimapOverlay minimapOverlay;
+
+	@Inject
 	private OverlayManager overlayManager;
 
 	@Inject
 	private KeyManager keyManager;
 
-	@Getter
 	private boolean renderGreenscreen;
+
+	public boolean isRenderGreenscreen()
+	{
+		return renderGreenscreen;
+	}
 
 	private final HotkeyListener hotkeyListener = new HotkeyListener(() -> config.hotkey())
 	{
@@ -50,6 +56,7 @@ public class GreenScreenPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 		overlayManager.add(overlay);
+		overlayManager.add(minimapOverlay);
 		renderGreenscreen = config.defaultState();
 		keyManager.registerKeyListener(hotkeyListener);
 	}
@@ -58,6 +65,7 @@ public class GreenScreenPlugin extends Plugin
 	protected void shutDown() throws Exception
 	{
 		overlayManager.remove(overlay);
+		overlayManager.remove(minimapOverlay);
 		keyManager.unregisterKeyListener(hotkeyListener);
 	}
 

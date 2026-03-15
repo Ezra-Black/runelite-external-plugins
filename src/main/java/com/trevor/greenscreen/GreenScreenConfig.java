@@ -11,10 +11,21 @@ import java.awt.Color;
 public interface GreenScreenConfig extends Config
 {
 	@ConfigItem(
+		keyName = "mode",
+		name = "Greenscreen mode",
+		description = "Full game: green only on game world. Minimap only: green only on minimap. Both: green on game world and minimap.",
+		position = 0
+	)
+	default GreenscreenMode mode()
+	{
+		return GreenscreenMode.FULL_GAME;
+	}
+
+	@ConfigItem(
 		keyName = "color",
 		name = "Color",
 		description = "The color of the greenscreen",
-		position = 0
+		position = 1
 	)
 	default Color greenscreenColor()
 	{
@@ -25,7 +36,7 @@ public interface GreenScreenConfig extends Config
 			keyName = "toggleKey",
 			name= "Toggle Key",
 			description = "Key to press to toggle greenscreen",
-			position = 1
+			position = 2
 	)
 	default Keybind hotkey()
 	{
@@ -36,7 +47,7 @@ public interface GreenScreenConfig extends Config
 			keyName = "defaultState",
 			name = "Should Default On",
 			description = "What state should the greenscreen default to",
-			position = 2
+			position = 3
 	)
 	default boolean defaultState()
 	{
