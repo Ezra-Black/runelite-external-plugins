@@ -53,4 +53,81 @@ public interface GreenScreenConfig extends Config
 	{
 		return true;
 	}
+
+	@ConfigItem(
+		keyName = "hideXpOrb",
+		name = "Hide XP orb (Resizable Modern)",
+		description = "Hide the XP orb when using Resizable Modern layout",
+		position = 4
+	)
+	default boolean hideXpOrb()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "hideCompass",
+		name = "Hide compass (Resizable Modern)",
+		description = "Hide the compass when using Resizable Modern layout",
+		position = 5
+	)
+	default boolean hideCompass()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "hideAllOrbs",
+		name = "Hide all orbs (Resizable Modern)",
+		description = "Hide health, prayer, run, spec, XP, and related minimap orbs in Resizable Modern layout",
+		position = 6
+	)
+	default boolean hideAllOrbs()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "moveCompassTopLeft",
+		name = "Move compass to top-left (Resizable Modern)",
+		description = "Move the compass widget to the top-left of the game canvas in Resizable Modern layout",
+		position = 7
+	)
+	default boolean moveCompassTopLeft()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "compassOffsetX",
+		name = "Compass X offset",
+		description = "X offset from the top-left when moving the compass",
+		position = 8
+	)
+	default int compassOffsetX()
+	{
+		return 8;
+	}
+
+	@ConfigItem(
+		keyName = "compassOffsetY",
+		name = "Compass Y offset",
+		description = "Y offset from the top-left when moving the compass",
+		position = 9
+	)
+	default int compassOffsetY()
+	{
+		return 8;
+	}
+
+	@ConfigItem(
+		keyName = "moveSpecToXpSlot",
+		name = "Move spec orb to XP slot (Resizable Modern)",
+		description = "Move the combat spec orb to the XP orb position in Resizable Modern layout",
+		position = 10
+	)
+	default boolean moveSpecToXpSlot()
+	{
+		return false;
+	}
 }
